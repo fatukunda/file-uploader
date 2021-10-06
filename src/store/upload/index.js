@@ -17,11 +17,20 @@ export default {
     SET_COMPLETED_FILES(state, file) {
       state.completedFiles = [...state.completedFiles, file];
     },
+    SET_ALL_COMPLETE_FILES(state, files) {
+      state.completedFiles = files;
+    },
     SET_INCOMPLETED_FILES(state, file) {
       state.incompleteUploads = [...state.incompleteUploads, file];
     },
+    SET_ALL_INCOMPLETE_FILES(state, files) {
+      state.incompleteUploads = files;
+    },
     SET_NEXT_UP_FILES(state, file) {
       state.nextUpFiles = [...state.nextUpFiles, file];
+    },
+    SET_ALL_NEXT_UP_FILES(state, files) {
+      state.nextUpFiles = files;
     },
     RE_SET_NEXT_UP_FILES(state, files) {
       state.nextUpFiles = files;
@@ -91,6 +100,22 @@ export default {
           }
         }, 5000);
       });
+    },
+    removeFile({ commit, state }, data) {
+      const { file, panel } = data;
+      let modifiedFiles = [];
+      if (panel === "incompleted") {
+        modifiedFiles = state.incompleteUploads.filter(
+          (fl) => fl.id !== file.id
+        );
+        commit("SET_ALL_INCOMPLETE_FILES", modifiedFiles);
+      } else if (panel === "completed") {
+        modifiedFiles = state.completedFiles.filter((fl) => fl.id !== file.id);
+        commit("SET_ALL_COMPLETE_FILES", modifiedFiles);
+      } else if (panel === "nextup") {
+        modifiedFiles = state.nextUpFiles.filter((fl) => fl.id !== file.id);
+        commit("SET_ALL_NEXT_UP_FILES", modifiedFiles);
+      }
     },
   },
 };

@@ -6,10 +6,10 @@
           <v-expansion-panel-header>Uploading</v-expansion-panel-header>
           <v-expansion-panel-content v-if="isUploading && uploadingFile">
             <app-file
-              :name="uploadingFile.name"
-              :size="uploadingFile.size"
+              :file="uploadingFile"
               :icon="getIcon(uploadingFile)"
               :iconColor="getIconColor(uploadingFile)"
+              :uploadingPage="true"
             >
               <template v-slot:icon>
                 <v-progress-circular
@@ -35,10 +35,11 @@
             <app-file
               v-for="file in nextUpFiles"
               :key="file.id"
-              :name="file.name"
-              :size="file.size"
+              :file="file"
               :icon="getIcon(file)"
               :iconColor="getIconColor(file)"
+              :uploadingPage="false"
+              @remove="removeFile({ file: $event, panel: 'nextup' })"
             >
               <template v-slot:icon>
                 <v-progress-circular
@@ -64,10 +65,11 @@
             <app-file
               v-for="(file, index) in uploadedFiles"
               :key="index"
-              :name="file.name"
-              :size="file.size"
+              :file="file"
               :icon="getIcon(file)"
               :iconColor="getIconColor(file)"
+              :uploadingPage="false"
+              @remove="removeFile({ file: $event, panel: 'completed' })"
             >
               <template v-slot:icon>
                 <v-icon color="green">mdi-check-circle</v-icon>
@@ -90,10 +92,11 @@
             <app-file
               v-for="file in incompleteFiles"
               :key="file.id"
-              :name="file.name"
-              :size="file.size"
+              :file="file"
               :icon="getIcon(file)"
               :iconColor="getIconColor(file)"
+              :uploadingPage="false"
+              @remove="removeFile({ file: $event, panel: 'incompleted' })"
             >
               <template v-slot:icon>
                 <v-icon color="red">mdi-refresh</v-icon>
@@ -142,7 +145,7 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions("upload", ["uploadQuedFiles"]),
+    ...mapActions("upload", ["uploadQuedFiles", "removeFile"]),
     getIcon(file) {
       if (file.mimeType.includes("image")) {
         return "mdi-image";

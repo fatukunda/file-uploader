@@ -8,18 +8,23 @@
               <v-icon :color="iconColor" large>{{ icon }}</v-icon>
             </v-col>
             <v-col>
-              <p class="image-name">{{ name }}</p>
-              <small>{{ size }}</small>
+              <p class="image-name">{{ file.name }}</p>
+              <small>{{ file.size }}</small>
             </v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col cols="4">
           <v-row>
             <v-col align="center" justify="center">
               <slot name="icon" />
               <slot name="status" />
             </v-col>
           </v-row>
+        </v-col>
+        <v-col align="end" v-if="!uploadingPage">
+          <v-icon class="close" @click.native="$emit('remove', file)"
+            >mdi-close</v-icon
+          >
         </v-col>
       </v-row>
     </v-card-text>
@@ -30,12 +35,8 @@
 export default {
   name: "AppFile",
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    size: {
-      type: String,
+    file: {
+      type: Object,
       required: true,
     },
     icon: {
@@ -43,6 +44,9 @@ export default {
     },
     iconColor: {
       type: String,
+    },
+    uploadingPage: {
+      type: Boolean,
     },
   },
 };
@@ -55,5 +59,8 @@ export default {
 .image-name {
   margin: 0px;
   padding: 0px;
+}
+.close {
+  cursor: pointer;
 }
 </style>
