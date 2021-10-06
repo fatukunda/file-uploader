@@ -102,7 +102,12 @@
                 <v-icon color="red">mdi-refresh</v-icon>
               </template>
               <template v-slot:status>
-                <div>Failed</div>
+                <div v-if="file.status && file.status === 'Failed'">
+                  {{ file.status }}
+                </div>
+                <div v-if="file.status && file.status === 'Canceled'">
+                  {{ file.status }}
+                </div>
               </template>
             </app-file>
           </v-expansion-panel-content>

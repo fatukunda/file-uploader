@@ -1,3 +1,4 @@
+import Vue from "vue";
 import { files } from "../../helpers";
 
 export default {
@@ -74,6 +75,7 @@ export default {
           commit("SET_UPLOADING_FILE", null);
           commit("SET_UPLOAD", false);
         } else {
+          Vue.set(randomFile, "status", "Failed");
           commit("SET_INCOMPLETED_FILES", randomFile);
           commit("SET_UPLOADING_FILE", null);
           commit("SET_UPLOAD", false);
@@ -90,10 +92,12 @@ export default {
         commit("SET_UPLOADING_FILE", file);
         setTimeout(() => {
           if (uploadChance >= 75) {
+            Vue.set(file, "status", "Canceled");
             commit("SET_COMPLETED_FILES", file);
             commit("SET_UPLOAD", false);
             commit("SET_UPLOADING_FILE", null);
           } else {
+            Vue.set(file, "status", "Failed");
             commit("SET_INCOMPLETED_FILES", file);
             commit("SET_UPLOAD", false);
             commit("SET_UPLOADING_FILE", null);
@@ -110,11 +114,15 @@ export default {
         );
         commit("SET_ALL_INCOMPLETE_FILES", modifiedFiles);
       } else if (panel === "completed") {
+        Vue.set(file, "status", "Canceled");
         modifiedFiles = state.completedFiles.filter((fl) => fl.id !== file.id);
         commit("SET_ALL_COMPLETE_FILES", modifiedFiles);
+        commit("SET_INCOMPLETED_FILES", file);
       } else if (panel === "nextup") {
+        Vue.set(file, "status", "Canceled");
         modifiedFiles = state.nextUpFiles.filter((fl) => fl.id !== file.id);
         commit("SET_ALL_NEXT_UP_FILES", modifiedFiles);
+        commit("SET_INCOMPLETED_FILES", file);
       }
     },
   },
