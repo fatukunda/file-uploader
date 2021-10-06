@@ -5,7 +5,7 @@
         <v-col cols="6">
           <v-row>
             <v-col cols="3" align-self="center">
-              <v-icon color="green" large>mdi-image</v-icon>
+              <v-icon :color="iconColor" large>{{ icon }}</v-icon>
             </v-col>
             <v-col>
               <p class="image-name">{{ name }}</p>
@@ -37,6 +37,12 @@ export default {
     size: {
       type: String,
       required: true,
+    },
+    icon: {
+      type: String,
+    },
+    iconColor: {
+      type: String,
     },
   },
 };

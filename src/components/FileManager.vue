@@ -5,17 +5,19 @@
         <v-expansion-panel>
           <v-expansion-panel-header>Uploading</v-expansion-panel-header>
           <v-expansion-panel-content v-if="isUploading && uploadingFile">
-            <app-file :name="uploadingFile.name" :size="uploadingFile.size">
+            <app-file
+              :name="uploadingFile.name"
+              :size="uploadingFile.size"
+              :icon="getIcon(uploadingFile)"
+              :iconColor="getIconColor(uploadingFile)"
+            >
               <template v-slot:icon>
                 <v-progress-circular
-                  :rotate="360"
-                  :size="20"
+                  indeterminate
+                  color="blue"
                   :width="2"
-                  :value="value"
-                  color="teal"
-                >
-                  {{ value }}
-                </v-progress-circular>
+                  size="20"
+                ></v-progress-circular>
               </template>
               <template v-slot:status>
                 <div>Encrypting...</div>
@@ -35,17 +37,16 @@
               :key="file.id"
               :name="file.name"
               :size="file.size"
+              :icon="getIcon(file)"
+              :iconColor="getIconColor(file)"
             >
               <template v-slot:icon>
                 <v-progress-circular
-                  :rotate="360"
-                  :size="20"
+                  :value="100"
+                  color="blue-grey"
                   :width="2"
-                  :value="value"
-                  color="teal"
-                >
-                  {{ value }}
-                </v-progress-circular>
+                  size="20"
+                ></v-progress-circular>
               </template>
               <template v-slot:status>
                 <div>Waiting...</div>
@@ -61,10 +62,12 @@
           <v-expansion-panel-header>Completed</v-expansion-panel-header>
           <v-expansion-panel-content v-if="uploadedFiles.length">
             <app-file
-              v-for="file in uploadedFiles"
-              :key="file.id"
+              v-for="(file, index) in uploadedFiles"
+              :key="index"
               :name="file.name"
               :size="file.size"
+              :icon="getIcon(file)"
+              :iconColor="getIconColor(file)"
             >
               <template v-slot:icon>
                 <v-icon color="green">mdi-check-circle</v-icon>
@@ -89,6 +92,8 @@
               :key="file.id"
               :name="file.name"
               :size="file.size"
+              :icon="getIcon(file)"
+              :iconColor="getIconColor(file)"
             >
               <template v-slot:icon>
                 <v-icon color="red">mdi-refresh</v-icon>
@@ -138,6 +143,32 @@ export default {
   },
   methods: {
     ...mapActions("upload", ["uploadQuedFiles"]),
+    getIcon(file) {
+      if (file.mimeType.includes("image")) {
+        return "mdi-image";
+      } else if (file.mimeType.includes("zip")) {
+        return "mdi-zip-box";
+      } else if (file.mimeType.includes("wordprocessingml")) {
+        return "mdi-file-word";
+      } else if (file.mimeType.includes("pdf")) {
+        return "mdi-file-pdf-box";
+      } else if (file.mimeType.includes("spreadsheetml")) {
+        return "mdi-file-excel";
+      }
+    },
+    getIconColor(file) {
+      if (file.mimeType.includes("image")) {
+        return "blue";
+      } else if (file.mimeType.includes("zip")) {
+        return "yellow";
+      } else if (file.mimeType.includes("wordprocessingml")) {
+        return "blue";
+      } else if (file.mimeType.includes("pdf")) {
+        return "red";
+      } else if (file.mimeType.includes("spreadsheetml")) {
+        return "green";
+      }
+    },
   },
 };
 </script>

@@ -41,8 +41,8 @@ export default {
     nextUpFiles: (state) => state.nextUpFiles,
   },
   actions: {
-    startUpload(context) {
-      const filesCopy = context.state.allFiles;
+    startUpload({ commit, state }) {
+      const filesCopy = state.allFiles;
       // Get a random file from the copied list of files.
       const randomFile =
         filesCopy[Math.floor(Math.random() * filesCopy.length)];
@@ -50,51 +50,47 @@ export default {
       const modifiedFiles = filesCopy.filter(
         (file) => file.id !== randomFile.id
       );
-      context.commit("SET_ALL_FILES", modifiedFiles);
+      commit("SET_ALL_FILES", modifiedFiles);
       // Check if an upload is taking place
       const uploadChance = Math.random() * 100;
-      if (context.state.isUploading) {
-        context.commit("SET_NEXT_UP_FILES", randomFile);
+      if (state.isUploading) {
+        commit("SET_NEXT_UP_FILES", randomFile);
         return;
       }
-      context.commit("SET_UPLOAD", true);
-      context.commit("SET_UPLOADING_FILE", randomFile);
+      commit("SET_UPLOAD", true);
+      commit("SET_UPLOADING_FILE", randomFile);
       setTimeout(() => {
         if (uploadChance >= 75) {
-          context.commit("SET_COMPLETED_FILES", randomFile);
-          context.commit("SET_UPLOADING_FILE", null);
-          context.commit("SET_UPLOAD", false);
+          commit("SET_COMPLETED_FILES", randomFile);
+          commit("SET_UPLOADING_FILE", null);
+          commit("SET_UPLOAD", false);
         } else {
-          context.commit("SET_INCOMPLETED_FILES", randomFile);
-          context.commit("SET_UPLOADING_FILE", null);
-          context.commit("SET_UPLOAD", false);
+          commit("SET_INCOMPLETED_FILES", randomFile);
+          commit("SET_UPLOADING_FILE", null);
+          commit("SET_UPLOAD", false);
         }
       }, 5000);
     },
-    uploadQuedFiles(context, files) {
+    uploadQuedFiles({ commit }, files) {
       files.forEach((file) => {
         //Remove file from the que
         const quedFiles = files.filter((fl) => fl.id !== file.id);
-        context.commit("RE_SET_NEXT_UP_FILES", quedFiles);
+        commit("RE_SET_NEXT_UP_FILES", quedFiles);
         const uploadChance = Math.random() * 100;
-        context.commit("SET_UPLOAD", true);
-        context.commit("SET_UPLOADING_FILE", file);
+        commit("SET_UPLOAD", true);
+        commit("SET_UPLOADING_FILE", file);
         setTimeout(() => {
           if (uploadChance >= 75) {
-            context.commit("SET_COMPLETED_FILES", file);
-            context.commit("SET_UPLOAD", false);
-            context.commit("SET_UPLOADING_FILE", null);
+            commit("SET_COMPLETED_FILES", file);
+            commit("SET_UPLOAD", false);
+            commit("SET_UPLOADING_FILE", null);
           } else {
-            context.commit("SET_INCOMPLETED_FILES", file);
-            context.commit("SET_UPLOAD", false);
-            context.commit("SET_UPLOADING_FILE", null);
+            commit("SET_INCOMPLETED_FILES", file);
+            commit("SET_UPLOAD", false);
+            commit("SET_UPLOADING_FILE", null);
           }
         }, 5000);
       });
-    },
-
-    removeFileFromQue(files, file) {
-      return files.filter((fl) => fl.id !== file.id);
     },
   },
 };

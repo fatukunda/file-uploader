@@ -20,7 +20,7 @@ export const files = [
   {
     id: "79a2d3d7-cc57-4e7a-b8aa-a994395fe831",
     name: "New Photo.png",
-    mimeType: "image/png",
+    mimeType: "document/pdf",
     size: "7MB",
   },
   {
@@ -32,7 +32,7 @@ export const files = [
   {
     id: "0ac05369-cf3c-4999-bc6a-405978015094",
     name: "cat (2).jfif",
-    mimeType: "image/jpeg",
+    mimeType: "test/pdf",
     size: "11MB",
   },
   {
