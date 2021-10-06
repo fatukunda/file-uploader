@@ -12,9 +12,9 @@
 - Vuex - For state management. I used vuex because it makes it easier to share state with different components that are in this application. Also, it hides away most of the functionality from the components hence making them more readable.
 - Vuetify - My choice for Vuetify was mostly based on the fact that it provides all the necessary components that I needed to complete the project. It is also required by FireKamp so I wanted to show that I can work with it.
 
-### Screenshot
+### Screenshot Recording
 
-![Screenshot 2021-10-06 at 4 06 31 PM](https://user-images.githubusercontent.com/4363632/136209547-71613132-cc6a-4dce-b67c-2c497cfa710e.png)
+ - [Screen recording](https://www.loom.com/share/9b1d021856a8421d87e25dcf5f27390b)
 
 ### What I would do if I had more time
 
