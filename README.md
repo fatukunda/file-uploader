@@ -1,4 +1,4 @@
-# File-uploader
+# File-uploader - [production link](https://file-upload-manager.netlify.app/)
 
 ## How to Run
 
@@ -13,6 +13,8 @@
 - Vuetify - My choice for Vuetify was mostly based on the fact that it provides all the necessary components that I needed to complete the project. It is also required by FireKamp so I wanted to show that I can work with it.
 
 ### Screenshot
+![Screenshot 2021-10-06 at 4 06 31 PM](https://user-images.githubusercontent.com/4363632/136209547-71613132-cc6a-4dce-b67c-2c497cfa710e.png)
+
 
 ### What I would do if I had more time
 
